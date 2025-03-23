@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplication Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 20px;
+            margin: 0;
+        }
+        .quiz-container {
+            max-width: 800px;
+            width: 90%;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            color: #333;
+        }
+        .question {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #eef;
+        }
+        .question-number {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        label {
+            flex: 1;
+            text-align: left;
+        }
+        input {
+            width: 100px;
+            padding: 5px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .correct {
+            color: green;
+            font-weight: bold;
+        }
+        .incorrect {
+            color: red;
+            font-weight: bold;
+        }
+        button {
+            margin-top: 20px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #28a745;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        @media (max-width: 768px) {
+            .question {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .question-number {
+                margin-bottom: 5px;
+            }
+            input {
+                width: 100%;
+            }
+        }
+        @media (max-width: 480px) {
+            .quiz-container {
+                padding: 10px;
+            }
+            button {
+                font-size: 16px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h2>Multiplication Quiz</h2>
+        <h3>Developed by <br> Naveed Ahmed</h3>
+        <form id="quiz-form">
+            <div id="questions"></div>
+            <button type="submit">Submit</button>
+        </form>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            function generateQuestions(count) {
+                let questions = [];
+                for (let i = 0; i < count; i++) {
+                    let num1 = Math.floor(Math.random() * 9) + 2;
+                    let num2 = Math.floor(Math.random() * 9) + 2;
+                    questions.push([num1, num2]);
+                }
+                return questions;
+            }
+
+            const questions = generateQuestions(100);
+            const questionContainer = document.getElementById('questions');
+
+            questions.forEach((q, index) => {
+                const div = document.createElement('div');
+                div.classList.add('question');
+                div.innerHTML = `<div class='question-number'>${index + 1}</div>
+                                 <label>${q[0]} × ${q[1]} = </label>
+                                 <input type="number" id="q${index}" data-answer="${q[0] * q[1]}" autocomplete="off">`;
+                questionContainer.appendChild(div);
+            });
+        });
+
+        document.getElementById('quiz-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let correct = 0;
+            const resultsContainer = document.getElementById('results');
+            resultsContainer.innerHTML = '';
+            
+            document.querySelectorAll("[id^=q]").forEach((input, index) => {
+                const userAnswer = parseInt(input.value);
+                const correctAnswer = parseInt(input.dataset.answer);
+                if (userAnswer === correctAnswer) {
+                    input.classList.add('correct');
+                    input.classList.remove('incorrect');
+                    correct++;
+                } else {
+                    input.classList.add('incorrect');
+                    input.classList.remove('correct');
+                }
+            });
+            resultsContainer.innerHTML = `<p>You got ${correct} out of 100 correct!</p>`;
+        });
+    </script>
+</body>
+</html>
