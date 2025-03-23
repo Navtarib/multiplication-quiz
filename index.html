@@ -137,27 +137,18 @@
                                  <input type="number" id="q${index}" data-answer="${q[0] * q[1]}" autocomplete="off">`;
                 questionContainer.appendChild(div);
             });
-        });
 
-        document.getElementById('quiz-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            let correct = 0;
-            const resultsContainer = document.getElementById('results');
-            resultsContainer.innerHTML = '';
-            
-            document.querySelectorAll("[id^=q]").forEach((input, index) => {
-                const userAnswer = parseInt(input.value);
-                const correctAnswer = parseInt(input.dataset.answer);
-                if (userAnswer === correctAnswer) {
-                    input.classList.add('correct');
-                    input.classList.remove('incorrect');
-                    correct++;
-                } else {
-                    input.classList.add('incorrect');
-                    input.classList.remove('correct');
-                }
+            document.querySelectorAll("input").forEach(input => {
+                input.addEventListener("input", function () {
+                    const userAnswer = parseInt(this.value);
+                    const correctAnswer = parseInt(this.dataset.answer);
+                    if (userAnswer === correctAnswer) {
+                        this.style.color = "green";
+                    } else {
+                        this.style.color = "red";
+                    }
+                });
             });
-            resultsContainer.innerHTML = `<p>You got ${correct} out of 100 correct!</p>`;
         });
     </script>
 </body>
