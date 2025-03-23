@@ -1,6 +1,161 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplication Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 20px;
+            margin: 0;
+        }
+        .quiz-container {
+            max-width: 800px;
+            width: 90%;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            color: #333;
+        }
+        .question {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #eef;
+        }
+        .question-number {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        label {
+            flex: 1;
+            text-align: left;
+        }
+        input {
+            width: 100px;
+            padding: 5px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .correct {
+            color: green;
+            font-weight: bold;
+        }
+        .incorrect {
+            color: red;
+            font-weight: bold;
+        }
+        button {
+            margin-top: 20px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #28a745;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        @media (max-width: 768px) {
+            .question {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .question-number {
+                margin-bottom: 5px;
+            }
+            input {
+                width: 100%;
+            }
+        }
+        @media (max-width: 480px) {
+            .quiz-container {
+                padding: 10px;
+            }
+            button {
+                font-size: 16px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h2>Multiplication Quiz</h2>
+        <h3>Developed by <br> Naveed Ahmed</h3>
+        <form id="quiz-form">
+            <div id="questions"></div>
+            <button type="submit">Submit</button>
+        </form>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            function generateQuestions(count) {
+                let questions = [];
+                for (let i = 0; i < count; i++) {
+                    let num1 = Math.floor(Math.random() * 9) + 2;
+                    let num2 = Math.floor(Math.random() * 9) + 2;
+                    questions.push([num1, num2]);
+                }
+                return questions;
+            }
+
+            const questions = generateQuestions(100);
+            const questionContainer = document.getElementById('questions');
+
+            questions.forEach((q, index) => {
+                const div = document.createElement('div');
+                div.classList.add('question');
+                div.innerHTML = `<div class='question-number'>${index + 1}</div>
+                                 <label>${q[0]} × ${q[1]} = </label>
+                                 <input type="number" id="q${index}" data-answer="${q[0] * q[1]}" autocomplete="off">`;
+                questionContainer.appendChild(div);
+            });
+
+            document.querySelectorAll("input").forEach(input => {
+                input.addEventListener("input", function () {
+                    const userAnswer = parseInt(this.value);
+                    const correctAnswer = parseInt(this.dataset.answer);
+                    if (userAnswer === correctAnswer) {
+                        this.style.color = "green";
+                    } else {
+                        this.style.color = "red";
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> -->
 
 
-  <!DOCTYPE html>
+  <!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -124,6 +279,7 @@
         </form>
         <div id="results"></div>
     </div>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             function generateQuestions(count) {
@@ -135,10 +291,10 @@
                 }
                 return questions;
             }
-    
+
             const questions = generateQuestions(100);
             const questionContainer = document.getElementById('questions');
-    
+
             questions.forEach((q, index) => {
                 const div = document.createElement('div');
                 div.classList.add('question');
@@ -147,7 +303,7 @@
                                  <input type="number" id="q${index}" data-answer="${q[0] * q[1]}" autocomplete="off">`;
                 questionContainer.appendChild(div);
             });
-    
+
             document.querySelectorAll("input").forEach(input => {
                 input.addEventListener("input", function () {
                     const userAnswer = parseInt(this.value);
@@ -159,12 +315,12 @@
                     }
                 });
             });
-    
+
             // Timer Functionality
             let timerInterval;
-            let timeLeft = 15 * 60; // 15 minutes in seconds
+            let timeLeft = .2 * 60; // 15 minutes in seconds
             const timerDisplay = document.getElementById("timer");
-    
+
             function updateTimer() {
                 let minutes = Math.floor(timeLeft / 60);
                 let seconds = timeLeft % 60;
@@ -172,20 +328,25 @@
                 
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
-                    calculateResults(); // Calculate results when the timer hits 0
+                    document.getElementById("quiz-form").submit(); 
+                    // Auto submit when timer reaches 0
                 } else {
                     timeLeft--;
                 }
             }
-    
+
             document.getElementById("start-quiz").addEventListener("click", function () {
                 document.getElementById("start-quiz").style.display = "none"; // Hide start button
                 document.querySelector(".timer").style.display = "block"; // Show timer
                 document.getElementById("quiz-form").style.display = "block"; // Show quiz
                 timerInterval = setInterval(updateTimer, 1000); // Start timer
             });
-    
-            function calculateResults() {
+
+            // Show results on submit
+            document.getElementById("quiz-form").addEventListener("submit", function (event) {
+                event.preventDefault();
+                clearInterval(timerInterval); // Stop timer
+
                 let correctAnswers = 0;
                 document.querySelectorAll("input").forEach(input => {
                     const userAnswer = parseInt(input.value);
@@ -194,51 +355,13 @@
                         correctAnswers++;
                     }
                 });
-    
+
                 document.getElementById("results").innerHTML = `<h3>Your Score: ${correctAnswers} / 100</h3>`;
-                document.getElementById("quiz-form").style.display = "none"; // Hide quiz form after submission
-            }
-    
-            // Show results on manual submit
-            document.getElementById("quiz-form").addEventListener("submit", function (event) {
-                event.preventDefault();
-                clearInterval(timerInterval); // Stop timer
-                calculateResults();
             });
         });
     </script>
-    
 </body>
 </html>  
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ -->
 
 
